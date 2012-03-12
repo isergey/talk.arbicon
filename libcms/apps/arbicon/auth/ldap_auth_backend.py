@@ -84,6 +84,21 @@ class LdapBackend:
             user.set_password(password)
             user.save()
 
+            groups = []
+            for member in ldap_user.member_of:
+                try:
+                    group = Group.objects.get(name=(group_prefix + member.lower()))
+                except Group.DoesNotExist:
+                    group = Group(name=(group_prefix + member.lower()))
+                    group.save()
+
+                groups.append(group)
+
+            user.groups = groups
+
+
+
+
             orgs = []
             if len(ldap_user.dn) > 3:
                 orgs = ldap_work.get_org_by_attr(o=ldap_user.dn[1],node='.')
@@ -95,7 +110,8 @@ class LdapBackend:
                 except Organisation.DoesNotExist:
                     organistion = Organisation(name=org.o[0:255])
                     organistion.save()
-                groups = []
+
+                #groups = []
                 for member in org.member_of:
                     try:
                         group = Group.objects.get(name=(group_prefix + member.lower()))
@@ -103,7 +119,8 @@ class LdapBackend:
                         group = Group(name=(group_prefix + member.lower()))
                         group.save()
 
-                    groups.append(group)
+                    if group not in groups:
+                        groups.append(group)
 
                     try:
                         og = OrganisationGroups.objects.get(organistion=organistion, group=group)
