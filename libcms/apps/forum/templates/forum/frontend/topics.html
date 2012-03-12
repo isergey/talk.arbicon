@@ -4,6 +4,11 @@
 {% load i18n %}
 {% block title %} {{ forum.title }} {% endblock %}
 {% block content %}
+    <style>
+        form input {
+            width: 100%;
+        }
+    </style>
     {% get_obj_perms request.user for forum as "forum_perms" %}
 
     <h3><a href="{% url forum:frontend:forums %}">{% trans 'Forums' %}</a> → {{ forum.title }}</h3>
