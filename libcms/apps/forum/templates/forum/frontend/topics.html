@@ -12,7 +12,7 @@
     {% get_obj_perms request.user for forum as "forum_perms" %}
 
     <h3><a href="{% url forum:frontend:forums %}">{% trans 'Forums' %}</a> → {{ forum.title }}</h3>
-    <hr/>
+
     <div class="forums span12">
         {% for topic in page.object_list %}
             <div class="row" style="margin-bottom: 10px">
@@ -42,9 +42,9 @@
         <div class="row">
             {% admin_pagination page %}
         </div>
-        <hr/>
         {% if "can_create_topics" in  forum_perms %}
         <div class="row">
+            <hr/>
             <form method="POST">{% csrf_token %}<a name="form">&nbsp;</a>
                     <legend>{% trans 'Create topic' %}</legend>
                 <fieldset>
