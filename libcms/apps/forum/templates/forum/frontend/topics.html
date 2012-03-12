@@ -42,6 +42,7 @@
         <div class="row">
             {% admin_pagination page %}
         </div>
+        <hr/>
         {% if "can_create_topics" in  forum_perms %}
         <div class="row">
             <form method="POST">{% csrf_token %}<a name="form">&nbsp;</a>

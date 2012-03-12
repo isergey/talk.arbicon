@@ -24,6 +24,7 @@
                 <p class="help-block">{{ forum.description }}</p>
             </div>
         {% endfor %}
+        <hr/>
         {% if perms.forum.add_forum %}
             <div class="row well">
                 <form method="POST">{% csrf_token %}<a name="form">&nbsp;</a>
