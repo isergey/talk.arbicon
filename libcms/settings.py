@@ -104,7 +104,6 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.media',
     'django.core.context_processors.static',
     'django.core.context_processors.request',
-    'social_auth.context_processors.social_auth_by_type_backends',
     #'django.contrib.messages.context_processors.messages',
 )
 

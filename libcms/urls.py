@@ -14,5 +14,4 @@ urlpatterns = patterns('',
     (r'^forum/', include('forum.urls', namespace='forum')),
     # Uncomment the next line to enable the admin:
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^sauth/', include('social_auth.urls')),
 )
