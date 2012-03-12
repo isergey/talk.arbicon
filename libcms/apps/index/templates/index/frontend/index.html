@@ -1,0 +1,12 @@
+{% extends 'frontend_base.html' %}
+{% load i18n %}
+{% block title %} {{ topic.subject }} {% endblock %}
+{% block content %}
+    <div class="span12">
+    <div class="row">
+        <h2><a href="{% url forum:frontend:forums %}">Форумы</a></h2>
+        <h2>Голосования</h2>
+    </div>
+
+    </div>
+{% endblock %}

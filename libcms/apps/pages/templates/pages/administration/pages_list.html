@@ -1,0 +1,32 @@
+{% extends 'pages/administration/index.html' %}
+{% load active_link %}
+{% load pagination_tag %}
+{% load i18n %}
+{% load breadcrumbs %}
+{% load mptt_tags %}
+{% block breadcrumb %}
+    {% breadcrumb _("Pages") pages:administration:index %}
+    {% breadcrumb _("List")  %}
+{% endblock %}
+
+{% block action_content %}
+    {% if parent %}
+        {% for ancestor in parent.get_ancestors %}
+            <a href="{% url pages:administration:pages_list ancestor.id %}">{{ ancestor }}</a> →
+        {% endfor %}
+        {{ parent }}
+    {% endif %}
+    <ul>
+    {% for page in pages %}
+        <li>
+            <h4><a href="{% url pages:administration:edit_page page.id %}">{{ page.content.title }}</a></h4>
+            {% if not page.is_leaf_node %}
+                <a href="{% url pages:administration:pages_list page.id %}">{% trans 'Subpages' %}</a>
+            {% endif %}
+            <a href="{% url pages:administration:create_page page.id %}">{% trans 'Add subpage' %}</a>
+            <a class="btn btn-danger" href="{% url pages:administration:delete_page page.id %}"><i class="icon-trash icon-white"></i></a>
+        </li>
+    {% endfor %}
+    </ul>
+    {% admin_pagination pages_page %}
+{% endblock %}

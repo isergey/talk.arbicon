@@ -1,0 +1,47 @@
+{% extends 'frontend_base.html' %}
+{% load i18n %}
+{% block title %}{% trans 'Forums list' %}{% endblock %}
+{% block content %}
+    <style>
+        form input {
+            width: 50%;
+        }
+    </style>
+    <h3>{% trans 'Forums' %}</h3>
+    <hr/>
+    <div class="forums span12">
+        {% for forum in forums %}
+            <div class="row" style="margin-bottom: 10px">
+                <span class="subject"><a href="{% url forum:frontend:topics forum.slug %}">{{ forum.title }}</a></span>
+                <span style="float: right;">
+                    {% if request.user.is_superuser %}
+                        <a class="btn btn-small btn-warning" href="{% url forum:frontend:forum_permissions forum.id %}" title="{% trans 'Edit permissions' %}"><i class="icon-lock"></i></a>
+                    {% endif %}
+                    {% if perms.forum.delete_forum %}
+                        <a class="delete btn btn-small btn-danger" href="{% url forum:frontend:forum_delete forum.id %}" title="{% trans 'Delete forum' %}"><i class="icon-trash icon-white"></i></a>
+                    {% endif %}
+                </span>
+                <p class="help-block">{{ forum.description }}</p>
+            </div>
+        {% endfor %}
+        {% if perms.forum.add_forum %}
+            <div class="row well">
+                <form method="POST">{% csrf_token %}<a name="form">&nbsp;</a>
+                    <legend>{% trans 'Create forum' %}</legend>
+                    <fieldset>
+                        {% include 'frontend/base_form_fields.html' with form=form %}
+                        <div class="form-actions">
+                            <button type="submit" class="btn">{% trans "Create forum" %}</button>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        {% endif %}
+    </div>
+    <script type="text/javascript">
+        $("a.delete").click(function(){
+            if(!confirm('Вы уверены что хотите удалить?')) return false;
+        });
+    </script>
+
+{% endblock %}
