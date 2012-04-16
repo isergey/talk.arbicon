@@ -134,8 +134,10 @@ class LdapBackend:
                     organistion_user = OrganisationUser(organistion=organistion, user=user)
                     organistion_user.save()
                     user.groups = groups
-                    #user.save()
 
+                    #user.save()
+        users_group = Group.objects.get_or_create(name='users')
+        user.groups.add(users_group)
         return user
 
 
