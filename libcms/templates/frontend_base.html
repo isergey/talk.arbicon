@@ -15,7 +15,7 @@
     <div class="row">
         <h2><a href="/">Арбикон. Обсуждение по пунктам повестки дня Общего Собрания АРБИКОН</a></h2>
         {% if request.user.is_authenticated %}
-            Вы вошкли как: {{ request.user.username }} <a href="{% url accounts:frontend:logout %}">Выйти</a>
+            Авторизованный вход для: {{ request.user.username }} <a href="{% url accounts:frontend:logout %}">Выйти</a>
         {% else %}
 {#            <a href="{% url accounts:frontend:login %}">Войти</a>#}
         {% endif %}
