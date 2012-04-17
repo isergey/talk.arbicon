@@ -57,6 +57,7 @@ class LdapBackend:
                 pass
             return None
 
+        user = None
         try:
 
             user = User.objects.get(username=(username + username_postfix))
@@ -135,9 +136,8 @@ class LdapBackend:
                     organistion_user.save()
                     user.groups = groups
 
-                    #user.save()
         users_group = Group.objects.get_or_create(name='users')
-        user.groups.add(users_group)
+        user.groups.add(users_group[0])
         return user
 
 
