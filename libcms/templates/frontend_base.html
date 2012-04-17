@@ -13,19 +13,44 @@
 <body>
 <div class="container">
     <div class="row">
-        <h2><a href="/">Арбикон. Обсуждение по пунктам повестки дня Общего Собрания АРБИКОН</a></h2>
-
+        <h2><a href="/">Обсуждение по пунктам повестки дня Общего Собрания АРБИКОН</a></h2>
         {% if request.user.is_authenticated %}
             Авторизованный вход для: {{ request.user.username }} <a href="{% url accounts:frontend:logout %}">Выйти</a>
         {% else %}
-        <p>Главный модератор системы форумов Племнек Александр Иванович <a href="mailto:plm@arbicon.ru">plm@arbicon.ru</a> </p>
 {#            <a href="{% url accounts:frontend:login %}">Войти</a>#}
         {% endif %}
+        <p>Главный модератор системы форумов Племнек Александр Иванович <a href="mailto:plm@arbicon.ru">plm@arbicon.ru</a> </p>
         <hr/>
     </div>
     <div class="row">
         {% block content %}wefwefwef{% endblock %}
     </div>
 </div>
+<script type="text/javascript">
+    var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+    document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+    try {
+        var pageTracker = _gat._getTracker("UA-839537-7");
+        pageTracker._trackPageview();
+    } catch(err) {}</script>
+<!-- Yandex.Metrika counter -->
+<div style="display:none;"><script type="text/javascript">
+    (function(w, c) {
+        (w[c] = w[c] || []).push(function() {
+            try {
+                w.yaCounter5777389 = new Ya.Metrika({id:5777389,
+                    clickmap:true,
+                    trackLinks:true, webvisor:true});
+            }
+            catch(e) { }
+        });
+    })(window, "yandex_metrika_callbacks");
+</script></div>
+<script src="//mc.yandex.ru/metrika/watch.js" type="text/javascript" defer="defer"></script>
+<noscript><div><img src="//mc.yandex.ru/watch/5777389" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+
 </body>
 </html>
