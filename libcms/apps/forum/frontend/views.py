@@ -182,7 +182,7 @@ def topic_delete(request, id):
 
 @login_required
 def topic_close(request, id):
-    if not request.user.has_perms(['forum.can_close_topics']):
+    if not request.user.has_perms(['forum.can_close_topics']) and not request.user.has_perms(['forum.can_close_own_topics']):
         return HttpResponseForbidden()
 
     topic = get_object_or_404(Topic, id=id)
