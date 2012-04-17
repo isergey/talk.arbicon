@@ -33,7 +33,7 @@
                     <div class="text span9">{{ article.text|safe }}</div>
                     <div class="toolbar span1">
 
-                        {% if article.author == request.user or "can_change_articles" in topic_perms %}
+                        {% if "can_change_articles" in topic_perms %}
                             <a class="btn btn-small btn-warning" href="{% url forum:frontend:edit_article topic.forum.slug topic.id article.id %}#form" title="{% trans 'Edit message' %}"><i class="icon-edit"></i></a>
                         {% endif %}
 

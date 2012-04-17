@@ -249,7 +249,7 @@ def topic_articles(request, slug, id, aid=None, eid=None):
     # если пользователь редактирует свое сообщение
     if eid:
         edit_article = get_object_or_404(Article, id=eid)
-        if request.user != edit_article.author and not request.user.has_perm("can_hide_articles", topic):
+        if not request.user.has_perm("can_change_articles", topic):
             return  HttpResponseForbidden()
     else:
         edit_article = None
