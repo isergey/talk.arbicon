@@ -13,7 +13,7 @@
 <body>
 <div class="container">
     <div class="row">
-        <h1><a href="/">Арбикон.Обсуждения</a></h1>
+        <h1><a href="/">Арбикон. Обсуждение по пунктам повестки дня Общего Собрания АРБИКОН</a></h1>
         {% if request.user.is_authenticated %}
             Вы вошкли как: {{ request.user.username }} <a href="{% url accounts:frontend:logout %}">Выйти</a>
         {% else %}
