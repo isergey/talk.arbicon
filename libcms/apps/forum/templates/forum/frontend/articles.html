@@ -75,7 +75,13 @@
             <div id="preview_message">
 
             </div>
+            {% if not  "can_publish_own_articles" in topic_perms %}
+                <div class="alert alert-block">
+                    <h4 class="alert-heading">Внимание!</h4>
+                    <p>Ваше сообщение будет опубликовано после проверки модератором.</p>
+                </div>
 
+            {% endif %}
             {% if "can_add_articles" in topic_perms or "can_change_articles" in topic_perms %}
                 <form method="POST" action="?page=last">{% csrf_token %}<a name="form">&nbsp;</a>
                     {% if not quote_article and not edit_article %}
