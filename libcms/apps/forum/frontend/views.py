@@ -42,7 +42,7 @@ def forums(request):
     last_topics_dict = {}
     last_forums_dict = {}
 
-    last_articles = Article.objects.all().order_by('-id')[:2]
+    last_articles = Article.objects.all().order_by('-id')[:10]
     for last_article in last_articles:
         last_articles_dict[last_article.id] = {'article': last_article}
         last_topics_dict[last_article.topic_id] = None
@@ -60,11 +60,11 @@ def forums(request):
 
     for last_article in last_articles:
         last_articles_dict[last_article.id]['topic']=last_topics_dict[last_article.topic_id]
-#        print last_topics_dict[last_article.topic_id]
         last_articles_dict[last_article.id]['forum'] = last_forums_dict[last_topics_dict[last_article.topic_id].forum_id]
-#        last_topics_dict[last_article.topic_id] = {}
+
 
     last_articles =  last_articles_dict.values()
+    last_articles = reversed(last_articles)
     return render(request, 'forum/frontend/forums.html', {
         'forums': forums,
         'form': form,
