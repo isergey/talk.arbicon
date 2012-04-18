@@ -37,9 +37,38 @@ def forums(request):
     else:
         form = ForumForm()
 
+
+    last_articles_dict = {}
+    last_topics_dict = {}
+    last_forums_dict = {}
+
+    last_articles = Article.objects.all().order_by('-id')[:2]
+    for last_article in last_articles:
+        last_articles_dict[last_article.id] = {'article': last_article}
+        last_topics_dict[last_article.topic_id] = None
+
+    topics = Topic.objects.filter(id__in=last_topics_dict.keys())
+
+    for topic in topics:
+        last_topics_dict[topic.id] = topic
+        last_forums_dict[topic.forum_id] = None
+
+    forums = Forum.objects.filter(id__in=last_forums_dict.keys())
+
+    for forum in forums:
+        last_forums_dict[forum.id] = forum
+
+    for last_article in last_articles:
+        last_articles_dict[last_article.id]['topic']=last_topics_dict[last_article.topic_id]
+#        print last_topics_dict[last_article.topic_id]
+        last_articles_dict[last_article.id]['forum'] = last_forums_dict[last_topics_dict[last_article.topic_id].forum_id]
+#        last_topics_dict[last_article.topic_id] = {}
+
+    last_articles =  last_articles_dict.values()
     return render(request, 'forum/frontend/forums.html', {
         'forums': forums,
-        'form': form
+        'form': form,
+        'last_articles': last_articles
     })
 
 
