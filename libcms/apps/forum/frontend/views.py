@@ -41,8 +41,11 @@ def forums(request):
     last_articles_dict = {}
     last_topics_dict = {}
     last_forums_dict = {}
+    if request.user.has_perms(['forum.can_hide_articles']):
+        last_articles = Article.objects.filter(deleted=False).order_by('-id')[:10]
+    else:
+        last_articles = Article.objects.filter(public=True, deleted=False).order_by('-id')[:10]
 
-    last_articles = Article.objects.all().order_by('-id')[:10]
     for last_article in last_articles:
         last_articles_dict[last_article.id] = {'article': last_article}
         last_topics_dict[last_article.topic_id] = None
