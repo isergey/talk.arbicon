@@ -58,7 +58,7 @@ def forums(request):
 
     lforums = Forum.objects.filter(id__in=last_forums_dict.keys())
 
-    for lforum in forumsl:
+    for lforum in lforums:
         last_forums_dict[lforum.id] = lforum
 
     for last_article in last_articles:
