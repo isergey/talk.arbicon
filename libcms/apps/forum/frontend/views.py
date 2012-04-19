@@ -56,10 +56,10 @@ def forums(request):
         last_topics_dict[topic.id] = topic
         last_forums_dict[topic.forum_id] = None
 
-    forums = Forum.objects.filter(id__in=last_forums_dict.keys())
+    lforums = Forum.objects.filter(id__in=last_forums_dict.keys())
 
-    for forum in forums:
-        last_forums_dict[forum.id] = forum
+    for lforum in forumsl:
+        last_forums_dict[lforum.id] = lforum
 
     for last_article in last_articles:
         last_articles_dict[last_article.id]['topic']=last_topics_dict[last_article.topic_id]
