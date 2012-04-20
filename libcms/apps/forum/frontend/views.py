@@ -66,12 +66,14 @@ def forums(request):
         last_articles_dict[last_article.id]['forum'] = last_forums_dict[last_topics_dict[last_article.topic_id].forum_id]
 
 
-    last_articles =  last_articles_dict.values()
-    last_articles = reversed(last_articles)
+    last_articles_list =  []
+    for last_article in last_articles:
+        last_articles_list.append(last_articles_dict[last_article.id])
+
     return render(request, 'forum/frontend/forums.html', {
         'forums': forums,
         'form': form,
-        'last_articles': last_articles
+        'last_articles': last_articles_list
     })
 
 
