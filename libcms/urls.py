@@ -12,6 +12,7 @@ urlpatterns = patterns('',
     (r'^pages/', include('pages.urls', namespace='pages')),
 
     (r'^forum/', include('forum.urls', namespace='forum')),
+    (r'^polls/', include('arbicon_polls.urls', namespace='arbicon_polls')),
     # Uncomment the next line to enable the admin:
     url(r'^admin/', include(admin.site.urls)),
 )

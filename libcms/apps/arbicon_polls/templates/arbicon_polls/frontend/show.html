@@ -1,0 +1,39 @@
+{% extends 'frontend_base.html' %}
+{% block title %}{{ poll.title }}{% endblock %}
+{% block content %}
+    <h3><a href="{% url index:frontend:index  %}">Начало</a> → <a href="{% url arbicon_polls:frontend:index  %}">Голосования</a>
+        → {{ poll.title }}</h3>
+    <hr/>
+    {% if user_is_voted and not poll.show_results %}
+        <div class="alert alert-success">
+            Вы уже отдали голос в этом голосовании {% if  not poll.show_results %}. Результаты будут доступны после окончания голосования {% endif %}. Спасибо.
+        </div>
+    {% endif %}
+    {% if choices and not poll.show_results %}
+        <h3>Варианты ответов:</h3>
+        <ul>
+            {% for choice in choices %}
+                <li>{{ choice }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    {% if choices and poll.show_results %}
+        <h3>Результаты голосования:</h3>
+        <ul style="list-style: none; margin: 0; padding: 0">
+            {% for choice in choices %}
+                <li><b>{{ choice }}</b> (голосов: {{ choice.votes }} - {{ choice.percent }}% )
+                    <div class="progress progress-success progress-striped" style="margin-bottom: 9px;">
+                        <div class="bar" style="width: {{ choice.percent }}%"></div>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    {% if not user_is_voted and poll.is_active %}
+        <form action="" method="POST"> {% csrf_token %}
+            {% include 'frontend/base_form_fields.html' %}
+            <input type="submit" class="btn btn-success" value="Отдать голос"/>
+        </form>
+    {% endif %}
+
+{% endblock %}

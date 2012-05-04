@@ -1,0 +1,17 @@
+{% extends 'frontend_base.html' %}
+{% block title %}{{ poll.title }}{% endblock %}
+{% block content %}
+    <h3><a href="{% url index:frontend:index  %}">Начало</a>  → <a href="{% url arbicon_polls:frontend:index  %}">Голосования</a> → {{ poll.title }}</h3>
+    <hr/>
+    <div class="alert alert-success">
+        Спасибо. Ваш голос учтен.
+        {% if  not poll.show_results %}
+            Результаты будут доступны после окончания голосования.
+        {% else %}
+            <a href="{% url arbicon_polls:frontend:show poll.id %}">Перейти</a> к результатам голосования.
+        {% endif %}
+    </div>
+
+
+
+{% endblock %}

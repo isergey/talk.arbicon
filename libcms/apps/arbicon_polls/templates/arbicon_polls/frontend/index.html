@@ -1,0 +1,33 @@
+{% extends 'frontend_base.html' %}
+{% block title %}{{ content.title }}{% endblock %}
+{% block content %}
+    <h3><a href="{% url index:frontend:index  %}">Начало</a>  → Голосования</h3>
+    <hr/>
+    <ul style="list-style: none; margin: 0; padding: 0">
+    {% for poll in polls %}
+        <li>
+            {% url arbicon_polls:frontend:show poll.id as poll_show %}
+{#            <div class="row">#}
+{#                <div class="span10"><h3>{{ poll }}</h3></div>#}
+{#                <div class="span2"><a style="width: 100%" class="btn btn-primary">Проголосовать</a></div>#}
+{#            </div>#}
+            {% if  not poll.is_active %}
+                <h3><a href="{{ poll_show }}">{{ poll }}</a> <span class="label label-warning">Голосование неактивно</span> {% if poll.voted %}<span class="label label-success">Голос отдан</span>{% endif %}</h3>
+            {% else %}
+                {% if poll.voted %}
+                    <h3><a href="{{ poll_show }}">{{ poll }}</a> <span class="label label-success">Голос отдан</span></h3>
+                {% else %}
+                <h3><a href="{{ poll_show }}">{{ poll }}</a> <span class="label label-important">Голосование активно</span></h3>
+                {% endif %}
+            {% endif %}
+            <div class="alert alert-info" style="margin-top: 10px;">
+                <b>Дата начала голосования</b>: {{ poll.start_poll_date|date:"d.m.Y H:i T" }}<br/>
+                <b>Дата окончания голосования</b>: {{ poll.end_poll_date|date:"d.m.Y H:i T" }}<br/>
+            </div>
+
+        </li>
+    {% empty %}
+        <h3>В данный момент нет активных голосований.</h3>
+    {% endfor %}
+    </ul>
+{% endblock %}

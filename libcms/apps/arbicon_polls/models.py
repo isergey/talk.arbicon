@@ -19,6 +19,7 @@ class Poll(models.Model):
     active = models.IntegerField(verbose_name=u'Активно?', default=ACTIVE_CHOICES[0],choices=ACTIVE_CHOICES, db_index=True)
     create_date = models.DateTimeField(verbose_name=u'Дата создания',auto_now_add=True)
     show_results = models.BooleanField(verbose_name=u'Показывать результаты', default=False)
+    show = models.BooleanField(verbose_name=u'Показывать голосование в списке голосований', default=False, db_index=True)
     order = models.IntegerField(default=100, verbose_name=u'Порядок вывода голосования в списке', db_index=True)
     class Meta:
         verbose_name = u"голосование"
@@ -43,16 +44,27 @@ class Poll(models.Model):
             return False
         return True
 
-    def get_active_polls(self):
-        now = datetime.datetime.now()
-        return Poll.objects.filter(start_poll_date__lte=now,end_poll_date_gt=now, active=1)
+    @staticmethod
+    def get_polls():
+        return Poll.objects.filter(show=True)
 
-    def make_vote(self, poll_member, choice):
+    def make_vote(self, user, choice):
+        poll_member = PollsMember.objects.get(user=user)
         vote = Vote(poll_member=poll_member, choice=choice, poll=self)
         vote.save()
 
     def get_choices(self):
         return list(Choice.objects.filter(poll=self))
+
+    def user_is_voted(self, user):
+        """
+        Проголосовал ли пользовтаель
+        """
+        poll_member = PollsMember.objects.get(user=user)
+        if Vote.objects.filter(poll_member=poll_member, poll=self).count():
+            return True
+        else:
+            return False
 
 class Choice(models.Model):
     poll = models.ForeignKey(Poll, verbose_name=u'Голосование, к которому относится вопрос')
@@ -102,6 +114,26 @@ class PollsMember(models.Model):
     def __unicode__(self):
         return u'%s: %s' % (self.user, self.organisation)
 
+    @staticmethod
+    def is_member(user):
+        if user.is_superuser:
+            return True
+        elif PollsMember.objects.filter(user=user).count():
+            return True
+        else:
+            return False
+
+    @staticmethod
+    def get_member(user):
+        try:
+            return  PollsMember.objects.get(user=user)
+        except PollsMember.DoesNotExist:
+            return None
+
+    def clean(self):
+        if PollsMember.objects.filter(organisation=self.organisation):
+            raise ValidationError(u'К организации уже прикреплен пользователь')
+
 class Vote(models.Model):
     poll_member = models.ForeignKey(PollsMember, verbose_name=u'Проголосовавший участник')
     poll = models.ForeignKey(Poll, verbose_name=u'Голосование')
@@ -130,7 +162,6 @@ from django.dispatch import receiver
 
 @receiver(pre_save, sender=Vote)
 def vote_pre_save(instance, **kwargs):
-#    choice = instance.choice
     votes_count = instance.poll_member.type.votes_count
     # если происходит добавление нового объектае, то пересчитываем голоса
     if not instance.id:

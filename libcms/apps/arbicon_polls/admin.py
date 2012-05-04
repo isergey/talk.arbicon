@@ -8,7 +8,7 @@ class ChoiceInline(admin.StackedInline):
     extra = 2
 
 class PollAdmin(admin.ModelAdmin):
-    list_display = ('title','start_poll_date', 'end_poll_date', 'is_active', 'create_date', 'show_results')
+    list_display = ('title','start_poll_date', 'end_poll_date', 'is_active', 'create_date', 'show_results', 'show')
     inlines = [ChoiceInline]
 admin.site.register(Poll, PollAdmin)
 
