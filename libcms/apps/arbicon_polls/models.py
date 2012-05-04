@@ -60,7 +60,11 @@ class Poll(models.Model):
         """
         Проголосовал ли пользовтаель
         """
-        poll_member = PollsMember.objects.get(user=user)
+        try:
+            poll_member = PollsMember.objects.get(user=user)
+        except PollsMember.DoesNotExist:
+            return False
+
         if Vote.objects.filter(poll_member=poll_member, poll=self).count():
             return True
         else:
@@ -116,9 +120,7 @@ class PollsMember(models.Model):
 
     @staticmethod
     def is_member(user):
-        if user.is_superuser:
-            return True
-        elif PollsMember.objects.filter(user=user).count():
+        if PollsMember.objects.filter(user=user).count():
             return True
         else:
             return False

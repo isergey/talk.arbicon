@@ -8,7 +8,7 @@ from forms import get_choices_form
 @login_required
 def index(request):
 
-    if not PollsMember.is_member(request.user):
+    if not PollsMember.is_member(request.user) and not request.user.is_superuser:
         return HttpResponse(u"У Вас нет доступа к голосованиям.")
 
     polls = Poll.get_polls()
@@ -28,8 +28,8 @@ def index(request):
 
 @login_required
 def show(request, id):
-
-    if not PollsMember.is_member(request.user):
+    is_member = PollsMember.is_member(request.user)
+    if not is_member and not request.user.is_superuser:
         return HttpResponse(u"У Вас нет доступа к голосованиям.")
 
     poll = get_object_or_404(Poll, id=id)
@@ -37,9 +37,10 @@ def show(request, id):
     user_is_voted = poll.user_is_voted(request.user)
 
     form = None
-    choices = []
-    if request.method == 'POST':
 
+    if request.method == 'POST':
+        if not is_member:
+            return HttpResponse(u"Вы не можете голосовать так как не являетесь участником голосований.")
         if user_is_voted:
             return HttpResponse(u'Вы уже отдали голос в этом голосовании')
         form = ChoicesForm(request.POST)
@@ -53,8 +54,8 @@ def show(request, id):
     else:
         if not user_is_voted:
             form = ChoicesForm()
-        else:
-            choices = list(Choice.objects.filter(poll=poll))
+
+    choices = list(Choice.objects.filter(poll=poll))
 
     if choices:
         summ_votes = 0
