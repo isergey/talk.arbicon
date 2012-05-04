@@ -147,6 +147,7 @@ INSTALLED_APPS = (
     'pages',
     'forum',
     'arbicon',
+    'arbicon_polls',
 )
 
 

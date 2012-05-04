@@ -9,7 +9,8 @@ class Organisation(models.Model):
     weight = models.IntegerField(default=0, verbose_name=u'Вес организации')
     def __unicode__(self):
         return self.name
-
+    class Meta:
+        ordering = ['name']
 
 class OrganisationGroups(models.Model):
     organistion = models.ForeignKey(Organisation)
