@@ -35,6 +35,16 @@
             {% endfor %}
         </ul>
     {% endif  %}
+    {% if  not user_is_voted and not poll.show_results and not poll.is_active %}
+        <h3>Варианты ответов:</h3>
+        <ul>
+            {% for choice in choices %}
+                <li>{{ choice }}</li>
+            {% empty %}
+                Вариантов нет.
+            {% endfor %}
+        </ul>
+    {% endif  %}
     {% if not user_is_voted and poll.is_active %}
         <form action="" method="POST"> {% csrf_token %}
             {% include 'frontend/base_form_fields.html' %}
