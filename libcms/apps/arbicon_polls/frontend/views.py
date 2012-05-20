@@ -55,7 +55,7 @@ def show(request, id):
         if not user_is_voted:
             form = ChoicesForm()
 
-    choices = list(Choice.objects.filter(poll=poll))
+    choices = list(Choice.objects.filter(poll=poll).order_by('id'))
 
     if choices:
         summ_votes = 0
