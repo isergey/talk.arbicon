@@ -25,7 +25,7 @@
             {% endfor %}
         </ul>
     {% endif %}
-    {% if  user_is_voted %}
+    {% if  user_is_voted and not poll.show_results %}
         <h3>Варианты ответов:</h3>
         <ul>
             {% for choice in choices %}
