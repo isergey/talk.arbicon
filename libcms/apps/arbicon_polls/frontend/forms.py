@@ -8,5 +8,5 @@ def get_choices_form(poll):
 #            super(ChoicesForm, self).__init__(*args, **kwargs)
 #            self.poll = poll
 
-        choice = forms.ModelChoiceField(queryset=Choice.objects.filter(poll=poll), widget=forms.RadioSelect, initial=0, label=u'Выберите один из вариантов:')
+        choice = forms.ModelChoiceField(queryset=Choice.objects.filter(poll=poll).order_by('id'), widget=forms.RadioSelect, initial=0, label=u'Выберите один из вариантов:')
     return ChoicesForm
