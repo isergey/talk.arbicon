@@ -62,7 +62,10 @@ def show(request, id):
         for choice in choices:
             summ_votes += choice.votes
         for choice in choices:
-            choice.percent = u'%.2f' % (choice.votes * 100.0 / summ_votes)
+            if summ_votes == 0:
+                choice.percent == u'0'
+            else:
+                choice.percent = u'%.2f' % (choice.votes * 100.0 / summ_votes)
 
 
     for choice in choices:
