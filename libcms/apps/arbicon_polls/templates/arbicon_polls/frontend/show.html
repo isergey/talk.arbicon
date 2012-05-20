@@ -8,6 +8,7 @@
         {% if user_is_voted %}Вы уже отдали голос в этом голосовании {% endif %}
 
         {% if  not poll.show_results %} Результаты будут доступны после окончания голосования {% endif %}.
+        {% if poll.show_results and not poll.is_active %} Голосование закончено. {% endif %}
         Спасибо.
     </div>
 
