@@ -9,7 +9,7 @@ from forms import get_choices_form
 @login_required
 def index(request):
 
-    if not PollsMember.is_member(request.user) and not request.user.is_superuser:
+    if not PollsMember.is_member(request.user) and not request.user.is_superuser and not request.user.has_perm('arbicon_polls.view_journal'):
         return HttpResponse(u"У Вас нет доступа к голосованиям.")
 
     polls = Poll.get_polls()
@@ -30,7 +30,7 @@ def index(request):
 @login_required
 def show(request, id):
     is_member = PollsMember.is_member(request.user)
-    if not is_member and not request.user.is_superuser:
+    if not is_member and not request.user.is_superuser and not request.user.has_perm('arbicon_polls.view_journal'):
         return HttpResponse(u"У Вас нет доступа к голосованиям.")
 
     poll = get_object_or_404(Poll, id=id)
@@ -76,7 +76,8 @@ def show(request, id):
         'poll': poll,
         'form': form,
         'user_is_voted': user_is_voted,
-        'choices': choices
+        'choices': choices,
+        'is_member': is_member
     })
 
 @login_required

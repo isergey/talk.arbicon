@@ -39,7 +39,7 @@
             {% endfor %}
         </ul>
     {% endif  %}
-    {% if  not user_is_voted and not poll.show_results and not poll.is_active %}
+    {% if  not user_is_voted and not poll.show_results and not poll.is_active or perms.arbicon_polls.view_journal %}
         <h3>Варианты ответов:</h3>
         <ul>
             {% for choice in choices %}
@@ -49,7 +49,7 @@
             {% endfor %}
         </ul>
     {% endif  %}
-    {% if not user_is_voted and poll.is_active %}
+    {% if not user_is_voted and poll.is_active and is_member %}
         <form action="" method="POST"> {% csrf_token %}
             {% include 'frontend/base_form_fields.html' %}
             <input type="submit" class="btn btn-success" value="Отдать голос"/>
