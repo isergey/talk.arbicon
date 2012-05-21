@@ -85,7 +85,7 @@ def journal(request, id):
     if not request.user.has_perm('arbicon_polls.view_journal'):
         return HttpResponseForbidden()
     poll = get_object_or_404(Poll, id=id)
-    votes = Vote.objects.select_related().filter(poll=poll).order_by('poll_member')
+    votes = Vote.objects.select_related().filter(poll=poll).order_by('-vote_date')
     return render(request, 'arbicon_polls/frontend/journal.html', {
         'poll': poll,
         'votes': votes,
