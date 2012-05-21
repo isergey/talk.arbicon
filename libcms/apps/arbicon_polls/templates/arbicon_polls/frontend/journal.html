@@ -1,0 +1,26 @@
+{% extends 'frontend_base.html' %}
+{% block title %}{{ poll.title }}{% endblock %}
+{% block content %}
+    <h3><a href="{% url index:frontend:index  %}">Начало</a> → <a href="{% url arbicon_polls:frontend:index  %}">Голосования</a>
+        → <a href="{% url arbicon_polls:frontend:show poll.id  %}">{{ poll.title }}</a>  → Журнал голосования</h3>
+    <hr/>
+    <table class="table table-bordered ">
+        <thead>
+        <tr>
+            <th>Член голосования</th>
+            <th>Вариант ответа</th>
+            <th>Дата голосования</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for vote in votes %}
+        <tr>
+            <td>{{ vote.poll_member  }}</td>
+            <td>{{ vote.choice }}</td>
+            <td> {{ vote.vote_date }}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

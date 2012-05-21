@@ -3,6 +3,9 @@
 {% block content %}
     <h3><a href="{% url index:frontend:index  %}">Начало</a> → <a href="{% url arbicon_polls:frontend:index  %}">Голосования</a>
         → {{ poll.title }}</h3>
+    {% if perms.arbicon_polls.view_journal  %}
+        <a class="btn" href="{% url arbicon_polls:frontend:journal poll.id %}">Журнал голосования</a>
+    {% endif %}
     <hr/>
     <div class="alert alert-success">
         {% if user_is_voted %}Вы уже отдали голос в этом голосовании {% endif %}

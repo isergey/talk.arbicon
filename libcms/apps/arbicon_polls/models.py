@@ -146,6 +146,9 @@ class Vote(models.Model):
         ordering = ['-vote_date']
         verbose_name = u"голос"
         verbose_name_plural = u"журнал голосов"
+        permissions = (
+            ("view_journal", "Can see journal of poll's votes"),
+            )
 
     def clean(self):
         if not self.choice.poll.active:

@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404, HttpResponse
+from django.http import HttpResponseForbidden
 
 
 from ..models import Poll, PollsMember, Choice, Vote
@@ -78,4 +79,13 @@ def show(request, id):
         'choices': choices
     })
 
-
+@login_required
+def journal(request, id):
+    if not request.user.has_perm('arbicon_polls.view_journal'):
+        return HttpResponseForbidden()
+    poll = get_object_or_404(Poll, id=id)
+    votes = Vote.objects.select_related().filter(poll=poll).order_by('poll_member')
+    return render(request, 'arbicon_polls/frontend/journal.html', {
+        'poll': poll,
+        'votes': votes,
+    })
