@@ -8,7 +8,7 @@ from forms import get_choices_form
 @login_required
 def index(request):
 
-    if not PollsMember.is_member(request.user) and not request.user.is_superuser:
+    if not PollsMember.is_member(request.user):
         return HttpResponse(u"У Вас нет доступа к голосованиям.")
 
     polls = Poll.get_polls()
@@ -29,7 +29,7 @@ def index(request):
 @login_required
 def show(request, id):
     is_member = PollsMember.is_member(request.user)
-    if not is_member and not request.user.is_superuser:
+    if not is_member:
         return HttpResponse(u"У Вас нет доступа к голосованиям.")
 
     poll = get_object_or_404(Poll, id=id)
