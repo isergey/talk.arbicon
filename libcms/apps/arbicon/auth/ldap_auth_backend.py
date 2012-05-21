@@ -4,7 +4,7 @@ from django.db import transaction
 from django.contrib.auth.models import User, Group
 from ldapwork.ldap_work import LdapWork, LdapConnection
 from arbicon.models import Organisation, OrganisationGroups, OrganisationUser
-username_postfix = u'.arbicon.ru'
+username_postfix = u''
 group_prefix = u'arbicon.'
 
 class LdapBackend:
