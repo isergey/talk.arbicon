@@ -50,8 +50,8 @@ class LdapBackend:
         if not ldap_users:
             try:
                 user = User.objects.get(username=(username + username_postfix))
-                if user.is_superuser:
-                    return user
+#                if user.is_superuser:
+                return user
 #                user.delete()
             except User.DoesNotExist:
                 pass
