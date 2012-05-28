@@ -6,6 +6,7 @@ from django.http import HttpResponseForbidden
 
 from ..models import Poll, PollsMember, Choice, Vote
 from forms import get_choices_form
+
 @login_required
 def index(request):
 
@@ -89,4 +90,17 @@ def journal(request, id):
     return render(request, 'arbicon_polls/frontend/journal.html', {
         'poll': poll,
         'votes': votes,
+    })
+
+
+@login_required
+def not_voted(request):
+    votes = Vote.objects.all()
+    voted_members_id = []
+    for vote in votes:
+        voted_members_id.append(vote.poll_member_id)
+    voted_members_id = list(set(voted_members_id))
+    not_voted_members = PollsMember.objects.select_related().all().exclude(id__in=voted_members_id)
+    return render(request, 'arbicon_polls/frontend/not_voted.html', {
+        'not_voted_members': not_voted_members,
     })

@@ -1,0 +1,16 @@
+{% extends 'frontend_base.html' %}
+{% block title %}{{ poll.title }}{% endblock %}
+{% block content %}
+    <h3><a href="{% url index:frontend:index  %}">Начало</a> → <a href="{% url arbicon_polls:frontend:index  %}">Голосования</a>
+        → Кто не голосовал</h3>
+    <hr/>
+    <ul>
+    {% for not_voted_member in not_voted_members %}
+        <li>
+            {{ not_voted_member.user }}<br/>
+            {{ not_voted_member.organisation }}
+        </li>
+    {% endfor %}
+    </ul>
+
+{% endblock %}
