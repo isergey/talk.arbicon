@@ -62,7 +62,8 @@ def show(request, id):
         votes = list(Vote.objects.select_related('poll_member').filter(choice=choice))
         choice.votes = 0
         for vote in votes:
-            choice.votes += vote.poll_member.type.votes_count
+            pass
+#            choice.votes += vote.poll_member.type.votes_count
 
     if choices:
         summ_votes = 0
